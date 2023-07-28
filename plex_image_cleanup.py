@@ -303,10 +303,10 @@ def run_plex_image_cleanup(attrs):
                 logger.info(f"Scanning Metadata Directory For Bloat Images: {meta_dir}", start="scanning")
                 bloat_paths = [
                     os.path.join(r, f) for r, d, fs in tqdm(os.walk(meta_dir), unit=" directories", desc="| Scanning Metadata for Bloat Images") for f in fs
-                    logger.info(f'R '+r)
-                    logger.info(f'D '+d)
-                    logger.info(f'F '+f)
-                    logger.info(f'FS '+fs)
+                    logger.info(f"R {r}")
+                    logger.info(f"D {d}")
+                    logger.info(f"F {f}")
+                    logger.info(f"FS {fs}')
                     if 'Contents' not in r and "." not in f and f not in urls
                 ]
                 logger.info(f"{len(bloat_paths)} Bloat Images Found")
