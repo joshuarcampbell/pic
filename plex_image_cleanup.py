@@ -308,7 +308,7 @@ def run_plex_image_cleanup(attrs):
                     #logger.info(f"F {f}")
                     #logger.info(f"FS {fs}")
                     #if 'Contents' not in r and "." not in f and f not in urls
-                    if f not in urls
+                    if f not in urls and ".xml" not in f
                 ]
                 logger.info(f"{len(bloat_paths)} Bloat Images Found")
                 logger.info(f"Runtime: {logger.runtime()}")
