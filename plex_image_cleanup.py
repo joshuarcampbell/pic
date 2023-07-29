@@ -50,6 +50,10 @@ modes = {
     "remove": {
         "ed": "Removed", "ing": "Removing", "space": "Space Recovered",
         "desc": "Metadata Directory Files will be removed. (CANNOT BE RESTORED)"
+    },
+    "full-remove": {
+        "ed": "Removed", "ing": "Removing", "space": "Space Recovered",
+        "desc": "Metadata Directory Files (including Plex supplied metadata) will be removed. (CANNOT BE RESTORED)"
     }
 }
 mode_descriptions = '\n\t'.join([f"{m}: {d}" for m, d in modes.items()])
@@ -303,12 +307,8 @@ def run_plex_image_cleanup(attrs):
                 logger.info(f"Scanning Metadata Directory For Bloat Images: {meta_dir}", start="scanning")
                 bloat_paths = [
                     os.path.join(r, f) for r, d, fs in tqdm(os.walk(meta_dir), unit=" directories", desc="| Scanning Metadata for Bloat Images") for f in fs
-                    #logger.info(f"R {r}")
-                    #logger.info(f"D {d}")
-                    #logger.info(f"F {f}")
-                    #logger.info(f"FS {fs}")
-                    #if 'Contents' not in r and "." not in f and f not in urls
-                    if f not in urls and ".xml" not in f
+                    if 'Contents' not in r and "." not in f and f not in urls and mode == "remove"
+                    elif f not in urls and ".xml" not in f and mode == "full-remove"
                 ]
                 logger.info(f"{len(bloat_paths)} Bloat Images Found")
                 logger.info(f"Runtime: {logger.runtime()}")
@@ -324,7 +324,7 @@ def run_plex_image_cleanup(attrs):
                         if mode == "move":
                             messages.append(f"MOVE: {path} --> {os.path.join(restore_dir, path.removeprefix(meta_dir)[1:])}.jpg")
                             util.move_path(path, meta_dir, restore_dir, suffix=".jpg")
-                        elif mode == "remove":
+                        elif mode == "remove" or mode == "full-remove":
                             messages.append(f"REMOVE: {path}")
                             os.remove(path)
                         else:
