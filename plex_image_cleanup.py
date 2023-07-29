@@ -303,15 +303,29 @@ def run_plex_image_cleanup(attrs):
                 report.append(fields)
 
                 # Scan for Bloat Images
-                logger.separator(f"{modes[mode]['ing']} Bloat Images")
-                logger.info(f"Scanning Metadata Directory For Bloat Images: {meta_dir}", start="scanning")
-                bloat_paths = [
-                    os.path.join(r, f) for r, d, fs in tqdm(os.walk(meta_dir), unit=" directories", desc="| Scanning Metadata for Bloat Images") for f in fs
-                    if 'Contents' not in r and "." not in f and f not in urls and mode == "remove"
-                    elif f not in urls and ".xml" not in f and mode == "full-remove"
-                ]
-                logger.info(f"{len(bloat_paths)} Bloat Images Found")
-                logger.info(f"Runtime: {logger.runtime()}")
+                # If MODE = full-remove
+                if mode == "full-remove":
+                    logger.separator(f"{modes[mode]['ing']} Bloat Images")
+                    logger.info(f"Scanning Metadata Directory For Bloat Images: {meta_dir}", start="scanning")
+                    bloat_paths = [
+                        os.path.join(r, f) for r, d, fs in tqdm(os.walk(meta_dir), unit=" directories", desc="| Scanning Metadata for Bloat Images") for f in fs
+                        #if 'Contents' not in r and "." not in f and f not in urls
+                        if f not in urls and ".xml" not in f
+                    ]
+                    logger.info(f"{len(bloat_paths)} Bloat Images Found")
+                    logger.info(f"Runtime: {logger.runtime()}")
+
+                # If MODE <> "full-remove"
+                else:
+                    logger.separator(f"{modes[mode]['ing']} Bloat Images")
+                    logger.info(f"Scanning Metadata Directory For Bloat Images: {meta_dir}", start="scanning")
+                    bloat_paths = [
+                        os.path.join(r, f) for r, d, fs in tqdm(os.walk(meta_dir), unit=" directories", desc="| Scanning Metadata for Bloat Images") for f in fs
+                        if 'Contents' not in r and "." not in f and f not in urls
+                        #if f not in urls and ".xml" not in f and mode == "full-remove"
+                    ]
+                    logger.info(f"{len(bloat_paths)} Bloat Images Found")
+                    logger.info(f"Runtime: {logger.runtime()}")
 
                 # Work on Bloat Images
                 if bloat_paths:
