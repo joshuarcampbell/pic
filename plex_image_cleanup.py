@@ -85,7 +85,7 @@ def get_arg(env_str, default, arg_bool=False, arg_int=False):
     static_envs.extend(env_vars)
     for env_var in env_vars:
         env_value = os.environ.get(env_var)
-        if env_var == "BRANCH_NAME":
+        if env_var == "FULL_REMOVE":
             test_value = env_value
         if env_value is not None:
             final_value = env_value
