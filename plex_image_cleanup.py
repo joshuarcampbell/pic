@@ -71,8 +71,7 @@ options = [
     {"arg": "cb", "key": "clean-bundles",    "env": "CLEAN_BUNDLES",    "type": "bool", "default": False,    "help": "Global Toggle to Run Plex's Clean Bundles Operation."},
     {"arg": "od", "key": "optimize-db",      "env": "OPTIMIZE_DB",      "type": "bool", "default": False,    "help": "Global Toggle to Run Plex's Optimize DB Operation."},
     {"arg": "tr", "key": "trace",            "env": "TRACE",            "type": "bool", "default": False,    "help": "Run with extra trace logs."},
-    {"arg": "lr", "key": "log-requests",     "env": "LOG_REQUESTS",     "type": "bool", "default": False,    "help": "Run with every request logged."},
-    {"arg": "fr", "key": "full-remove",      "env": "FULL_REMOVE",      "type": "bool", "default": False,    "help": "Completely remove extraneous images."}
+    {"arg": "lr", "key": "log-requests",     "env": "LOG_REQUESTS",     "type": "bool", "default": False,    "help": "Run with every request logged."}
 ]
 
 parser = argparse.ArgumentParser()
