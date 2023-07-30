@@ -1,4 +1,4 @@
-import glob, os, re, shutil, sqlite3, sys, time, zipfile
+import argparse,glob, os, re, shutil, sqlite3, sys, time, zipfile
 from concurrent.futures import ProcessPoolExecutor
 from contextlib import closing
 from datetime import datetime
@@ -74,6 +74,42 @@ options = [
     {"arg": "lr", "key": "log-requests",     "env": "LOG_REQUESTS",     "type": "bool", "default": False,    "help": "Run with every request logged."},
     {"arg": "fr", "key": "full-remove",      "env": "FULL_REMOVE",      "type": "bool", "default": False,    "help": "Completely remove extraneous images."}
 ]
+
+parser = argparse.ArgumentParser()
+parser.add_argument("-fr", "--full_remove", dest="full_remove", help="Full remove extraneous images from Plex metadata.", action="full_remove", default=False)
+args, unknown = parser.parse_known_args()
+
+def get_arg(env_str, default, arg_bool=False, arg_int=False):
+    global test_value
+    env_vars = [env_str] if not isinstance(env_str, list) else env_str
+    final_value = None
+    static_envs.extend(env_vars)
+    for env_var in env_vars:
+        env_value = os.environ.get(env_var)
+        if env_var == "BRANCH_NAME":
+            test_value = env_value
+        if env_value is not None:
+            final_value = env_value
+            break
+    if final_value or (arg_int and final_value == 0):
+        if arg_bool:
+            if final_value is True or final_value is False:
+                return final_value
+            elif final_value.lower() in ["t", "true"]:
+                return True
+            else:
+                return False
+        elif arg_int:
+            try:
+                return int(final_value)
+            except ValueError:
+                return default
+        else:
+            return str(final_value)
+    else:
+        return default
+
+fullremove = get_arg("FULL_REMOVE", args.full_remove, arg_bool=True)
 script_name = "Plex Image Cleanup"
 plex_db_name = "com.plexapp.plugins.library.db"
 base_dir = os.path.dirname(os.path.abspath(__file__))
