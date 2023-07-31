@@ -87,7 +87,7 @@ plex_db_name = "com.plexapp.plugins.library.db"
 base_dir = os.path.dirname(os.path.abspath(__file__))
 config_dir = os.path.join(base_dir, "config")
 pmmargs = PMMArgs("joshuarcampbell/pic", base_dir, options, use_nightly=False)
-logger = logging.PMMLogger(script_name, "plex_image_cleanup", os.path.join(config_dir, "logs"), discord_url=pmmargs["discord"], is_trace=pmmargs["trace"], log_requests=pmmargs["log-requests"], full_remove=pmmargs["full-remove"])
+logger = logging.PMMLogger(script_name, "plex_image_cleanup", os.path.join(config_dir, "logs"), discord_url=pmmargs["discord"], is_trace=pmmargs["trace"], log_requests=pmmargs["log-requests"])
 logger.secret([pmmargs["url"], pmmargs["discord"], pmmargs["token"], quote(str(pmmargs["url"])), requests.utils.urlparse(pmmargs["url"]).netloc])
 requests.Session.send = util.update_send(requests.Session.send, pmmargs["timeout"])
 plexapi.BASE_HEADERS["X-Plex-Client-Identifier"] = pmmargs.uuid
