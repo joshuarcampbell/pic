@@ -91,7 +91,7 @@ logger = logging.PMMLogger(script_name, "plex_image_cleanup", os.path.join(confi
 logger.secret([pmmargs["url"], pmmargs["discord"], pmmargs["token"], quote(str(pmmargs["url"])), requests.utils.urlparse(pmmargs["url"]).netloc])
 requests.Session.send = util.update_send(requests.Session.send, pmmargs["timeout"])
 plexapi.BASE_HEADERS["X-Plex-Client-Identifier"] = pmmargs.uuid
-fullremove = pmmargs["full-remove"]
+full_remove = pmmargs["full-remove"]
 
 def pic_thread(attrs):
     with ProcessPoolExecutor(max_workers=1) as executor:
